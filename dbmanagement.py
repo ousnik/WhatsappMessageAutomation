@@ -1,17 +1,26 @@
 import pyodbc
-def getNameList():
+def getLists(day):
     cnxn = pyodbc.connect("Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=E:\\Docs\\psd.accdb")
-    sql = """\
-    SELECT * FROM FriQuery
-    """
+    sql = "SELECT * FROM "+day+"Query"
     cursor = cnxn.cursor()
     cursor.execute(sql)
-    nameList=[]
+    timeList=[]
+    waList=[]
     for row in cursor.fetchall():
-        nameList.extend(list(row))
-    nameList=list(set(nameList))
-    nameList.remove(None)
-    nameList.sort()
+        if row[3] is None:
+            timeList.append(row[2])
+        else:
+            timeList.append(row[3])
+        temp=[]
+        temp.append(row.WA_Contact_Name)
+        temp.append(row.WA_Contact_Name_2)
+        if None in temp:
+            temp.remove(None) 
+        waList.append(temp)
     cursor.close()
     cnxn.close()
-    return nameList
+    # print(timeList)
+    # print(waList)
+    return timeList,waList
+
+# getLists("Friday")
