@@ -1,12 +1,18 @@
 import pyodbc
+import os
 def getLists(day):
-    cnxn = pyodbc.connect("Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=E:\\Docs\\psd.accdb")
+    cwd=os.getcwd()+"\psd.accdb"
+    cwd = cwd.replace("\\","\\\\")
+    stringConnect="Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+cwd
+    cnxn = pyodbc.connect(stringConnect)
     sql = "SELECT * FROM "+day+"Query"
     cursor = cnxn.cursor()
     cursor.execute(sql)
+    nameList=[]
     timeList=[]
-    waList=[]
+    waList=[] 
     for row in cursor.fetchall():
+        nameList.append(row[1])
         if row[3] is None:
             timeList.append(row[2])
         else:
@@ -19,8 +25,9 @@ def getLists(day):
         waList.append(temp)
     cursor.close()
     cnxn.close()
+    # print(nameList)
     # print(timeList)
     # print(waList)
-    return timeList,waList
+    return nameList,timeList,waList
 
-# getLists("Friday")
+# getLists("saturday")

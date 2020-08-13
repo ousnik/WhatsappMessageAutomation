@@ -11,9 +11,10 @@ idMsg= "Meeting ID: "+input('Meeting ID: ')
 pMsg= "Password: "+input('Password: ')
 timeMsg="Please Join at "
 
-timeList,waList = getLists(day)
-# timeList=['Check1','Check2']
-# waList=[['Mom'],['Dad','Bliss']]
+# nameList,timeList,waList = getLists(day)
+nameList=['Mom','Dad']
+timeList=['Check1','Check2']
+waList=[['Mom','Bliss'],['Bliss','Dad']]
 
 driver = webdriver.Chrome("chromedriver.exe")
 driver.get('https://web.whatsapp.com/')
@@ -25,15 +26,22 @@ searchPointer = driver.find_element_by_xpath("//*[@id='side']/div[1]/div/label/d
 
 checkList=[]
 
+print("\nTo be sent to: ")
+print(nameList)
+
+print("\nSending now: ")
 for i in range(len(waList)):
     # myMsg=timeMsg+timeList[i]+" today."
     myMsg=timeMsg+"your respective time today."
-    for name in waList[i]:
-        if name in checkList:
+    print("\n"+nameList[i]+': ',end='')
+    for waName in waList[i]:
+        if waName in checkList:
+            print("--"+waName,end='-- | ')
             continue
-        checkList.append(name)
-        searchPointer.send_keys(name)
-        x_arg="//span[@title='{}']".format(name)
+        print(waName,end=' | ')
+        checkList.append(waName)
+        searchPointer.send_keys(waName)
+        x_arg="//span[@title='{}']".format(waName)
         user = wait.until(EC.presence_of_element_located((By.XPATH, x_arg)))
         user.click()
         msg_box =  driver.find_element_by_xpath("//*[@id='main']/footer/div[1]/div[2]/div/div[2]")
@@ -50,9 +58,7 @@ for i in range(len(waList)):
         msg_box.send_keys(pMsg)
         msg_box.send_keys(Keys.SHIFT, Keys.ENTER)
         msg_box.send_keys(Keys.SHIFT, Keys.ENTER)
-        msg_box.send_keys(myMsg)
+        # msg_box.send_keys(myMsg)
         msg_box.send_keys(Keys.ENTER)
-        # msg_box.clear()
-        searchPointer.clear() 
-
-
+        msg_box.clear()
+        searchPointer.clear()
