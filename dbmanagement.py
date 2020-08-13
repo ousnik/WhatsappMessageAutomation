@@ -30,4 +30,4 @@ def getLists(day):
     # print(waList)
     return nameList,timeList,waList
 
-# getLists("saturday")
+# getLists("today")

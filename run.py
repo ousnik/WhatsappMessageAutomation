@@ -11,10 +11,7 @@ idMsg= "Meeting ID: "+input('Meeting ID: ')
 pMsg= "Password: "+input('Password: ')
 timeMsg="Please Join at "
 
-# nameList,timeList,waList = getLists(day)
-nameList=['Mom','Dad']
-timeList=['Check1','Check2']
-waList=[['Mom','Bliss'],['Bliss','Dad']]
+nameList,timeList,waList = getLists(day)
 
 driver = webdriver.Chrome("chromedriver.exe")
 driver.get('https://web.whatsapp.com/')
