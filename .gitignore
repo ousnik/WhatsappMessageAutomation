@@ -1,1 +1,3 @@
 chromedriver.exe
+debug.log
+__pycache__/*
